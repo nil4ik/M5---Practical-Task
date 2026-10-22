@@ -1,0 +1,25 @@
+Task 8: Coverage check
+
+Coverage (Run 'All Tests' with Coverage): 80% lines, 62% branches.
+
+1. AnimalType (isSenior, fromDisplayName) - 0% covered.
+   Decision: YES, add tests.
+   This is real logic (case-insensitive search, trim, null handling, age check).
+   A bug here would not be noticed now.
+
+2. Animal.equals() - only "this == o" is covered, the field comparison is never run.
+   Decision: YES, add a test.
+   All tests compare an animal with the same object, but Mockito and AssertJ
+   depend on equals(). If a field was missing in equals(), no test would fail.
+
+3. Null checks: sortByName/sortByIntakeDate/sortBySpeciesThenAgeDescending(null),
+   findByName(null), validateSpecies(null) - only "" or one method is tested.
+   Decision: YES, cheap one-line tests.
+   If a null check is removed, the code would throw NullPointerException.
+
+4. AnimalReportWriter catch (IOException) blocks - not covered.
+   Decision: NO.
+   It only happens if the disk fails while writing. Hard to test, no business logic.
+
+Conclusion: coverage shows which code is never run, but not if the tests are good.
+Animal.equals() is called many times but its real logic was never checked.
